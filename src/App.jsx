@@ -1,5 +1,8 @@
 import React, { useState } from "react";
 import "./styles.css";
+import { InputTodo } from "./components/InputTodo";
+import { IncompleteTodos } from "./components/IncompleteTodo";
+import { CompleteTodos } from "./components/CompleteTodo";
 
 export const App = () => {
   // inputテキストのState
@@ -64,46 +67,21 @@ export const App = () => {
 
   return (
     <>
-      <div className="input-area">
-        <input
-          placeholder="TODOを入力"
-          value={todoText}
-          onChange={onChangeTodoText}
-        />
-        <button onClick={onClickAdd}>追加</button>
-      </div>
-
-      <div className="incomplete-area">
-        <p className="title">未完了のTODO</p>
-        <ul>
-          {/* アロー関数で新しく関数を生成してやる、そうすると引数を渡せる */}
-          {/* indexは、番号 1,2,3,4,5 */}
-          {incompleteTodos.map((todo, index) => {
-            return (
-              // ループで処理する場合、親タグにkeyを設定しないとエラーになる
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickComplete(index)}>完了</button>
-                <button onClick={() => onClickDelete(index)}>削除</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
-
-      <div className="complete-area">
-        <p className="title">完了のTODO</p>
-        <ul>
-          {completeTodos.map((todo, index) => {
-            return (
-              <div key={todo} className="list-row">
-                <li>{todo}</li>
-                <button onClick={() => onClickBack(index)}>戻す</button>
-              </div>
-            );
-          })}
-        </ul>
-      </div>
+      {/* コンポーネント化 */}
+      {/* InputTodo.jsxへstateと関数を渡す */}
+      <InputTodo
+        todoText={todoText}
+        onChange={onChangeTodoText}
+        onClick={onClickAdd}
+      />
+      {/* Incomplete.jsxへstateと関数を渡す */}
+      <IncompleteTodos
+        todo={incompleteTodos}
+        onClickDelete={onClickDelete}
+        onClickComplete={onClickComplete}
+      />
+      {/* Complete.jsxへstateと関数を渡す */}
+      <CompleteTodos todos={completeTodos} onClickBack={onClickBack} />
     </>
   );
 };
