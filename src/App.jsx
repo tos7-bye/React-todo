@@ -73,7 +73,13 @@ export const App = () => {
         todoText={todoText}
         onChange={onChangeTodoText}
         onClick={onClickAdd}
+        disabled={incompleteTodos.length >= 5}
       />
+      {incompleteTodos.length >= 5 && (
+        <p style={{ color: "red" }}>
+          登録できるtodo5個までです。消化頑張ってください。
+        </p>
+      )}
       {/* Incomplete.jsxへstateと関数を渡す */}
       <IncompleteTodos
         todo={incompleteTodos}
@@ -81,7 +87,11 @@ export const App = () => {
         onClickComplete={onClickComplete}
       />
       {/* Complete.jsxへstateと関数を渡す */}
-      <CompleteTodos todos={completeTodos} onClickBack={onClickBack} />
+      <CompleteTodos
+        todos={completeTodos}
+        onClickBack={onClickBack}
+        disabled={incompleteTodos.length >= 5}
+      />
     </>
   );
 };
